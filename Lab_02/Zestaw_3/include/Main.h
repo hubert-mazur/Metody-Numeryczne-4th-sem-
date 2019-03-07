@@ -1,10 +1,7 @@
 #pragma once
-#include "/home/hubert/Numerical_recipes/nrutil.cpp"
-#include "/home/hubert/Numerical_recipes/nrutil.h"
-#include "/home/hubert/Numerical_recipes/ludcmp.c"
-//# include "/opt/NR/numerical_recipes.c/nrutil.h"
-//# include "/opt/NR/numerical_recipes.c/nrutil.c" // na taurusie trzeba kompilowac z tymi bibliotekami!
-//# include "/opt/NR/numerical_recipes.c/ludcmp.c"
+# include "/opt/NR/numerical_recipes.c/nrutil.h"
+# include "/opt/NR/numerical_recipes.c/nrutil.c" 
+# include "/opt/NR/numerical_recipes.c/ludcmp.c"
 #define N 400
 #define b 2
 #define a 0.5
