@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
-#include "/opt/NR/numerical_recipes.c/nrutil.h"
-#include "/opt/NR/numerical_recipes.c/nrutil.c"
-#include "/opt/NR/numerical_recipes.c/gaussj.c"
-
+//#include "/opt/NR/numerical_recipes.c/nrutil.h"
+//#include "/opt/NR/numerical_recipes.c/nrutil.c" // na taurusie 
+//#include "/opt/NR/numerical_recipes.c/gaussj.c"
+# include "nrutil.h"
+# include "nrutil.cpp" // na wlasnym komputerze
+# include "gaussj.cpp"
 #define N 400 // rozmiar macierzy A: NxN
 
 int main(void)
@@ -61,9 +63,9 @@ int main(void)
 	FILE *file_ptr;
 	file_ptr = fopen("out.dat", "w");
 	if (!file_ptr)
-		std::cout << "ERR opening file!" << std::endl;
+		std::cout << "ERR opening file!" << std::endl; // zmiana w pliku glownym polegala na dodaniu jednej kolumny przy wypisywaniu do pliku (posluzyla ona do 							      // ograniczenia osi x z 400 do 40 
 	for (int i = 1; i <= N; i++)
-		fprintf(file_ptr, "%f\n", b[i][1]); // Wypisanie danych do pliku
+		fprintf(file_ptr,"%d %f\n",i, b[i][1]); // Wypisanie danych do pliku
 
 	//	Zwolnienie pamieci
 	free_matrix(A, 1, N, 1, N);

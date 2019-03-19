@@ -34,6 +34,21 @@
 # Swap files
 *.swp
 
+# PDF Files
+*.pdf
+
+# Image files
+*.jpg
+*.png
+
+# Data files
+*.dat
+
+# Text files
+*.doc
+*.docx
+*.odt
+
 # Build directories
 **/build/
 **/Build/
