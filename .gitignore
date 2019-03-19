@@ -48,6 +48,8 @@
 *.doc
 *.docx
 *.odt
+# Shell scipts
+#*.sh
 
 # Build directories
 **/build/
