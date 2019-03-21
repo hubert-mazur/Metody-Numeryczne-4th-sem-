@@ -2,113 +2,181 @@
 
 int main(void)
 {
-
     //// initialization ////
 
     // matrices //
 
-    gsl_matrix *A;
-    gsl_matrix_complex *evec;
+    float **H;
+    float **Y;
+    float **X;
 
     // vectors //
 
-    gsl_vector_complex *eval;
-    gsl_eigen_nonsymmv_workspace *w;
+    float *d;
+    float *e;
 
-    // Other //
+    int *index;
 
-    FILE *fp, *fp2, *fp3;
+    FILE *file_ptr;
+	FILE *energy_ptr;
 
     //// alloc memory ////
 
-    A = gsl_matrix_calloc(n, n);
-    evec = gsl_matrix_complex_calloc(n, n);
+    H = matrix(1, n, 1, n);
+    Y = matrix(1, n, 1, n);
+    X = matrix(1, n, 1, n);
 
-    eval = gsl_vector_complex_calloc(n);
-    w = gsl_eigen_nonsymmv_alloc(n);
+    d = vector(1, n);
+    e = vector(1, n);
 
-    fp = fopen("dane.dat", "w");
-    fp2 = fopen("dane2.dat", "w");
-    fp3 = fopen("dane3.dat", "w");
+    index = ivector(1, n);
+
+    file_ptr = fopen("dane.dat", "w");
+	energy_ptr = fopen ("energia.dat","w");
+
+    if (!file_ptr)
+        return -1;
+		    if (!energy_ptr)
+        return -1;
 
     //// main ////
 
-    for (int alfa = 0; alfa <= 100; alfa += 2)
-    {
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                x_i = -L / 2.0 + delta_x * (i + 1);
-                p_i = 1.0 + 4.0 * alfa * x_i * x_i;
-                gsl_matrix_set(A, i, j, ((-cronecker(i, j + 1) + 2 * cronecker(i, j) - cronecker(i, j - 1)) * N) / (p_i * delta_x * delta_x));
-            }
-        }
-        gsl_eigen_nonsymmv(A, eval, evec, w);
-        gsl_eigen_nonsymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
+    intialiaze_main_matrix(&H);
 
-        fprintf(fp, "%3d ", alfa);
-        for (k = 0; k < 6; k++)
-            fprintf(fp, "%12g ", sqrt(GSL_REAL(gsl_vector_complex_get(eval, k))));
-        fprintf(fp, "\n");
+    intialiaze_Y_matrix(&Y);
 
-        if (alfa == 0)
-        {
-            for (i = 0; i < n; i++)
-            {
-                x_i = -L / 2.0 + delta_x * (i + 1);
-                fprintf(fp2, "%12g ", x_i);
-                for (k = 0; k < 6; k++)
-                    fprintf(fp2, "%12g ", (GSL_REAL(gsl_matrix_complex_get(evec, i, k))));
-                fprintf(fp2, "\n");
-            }
-        }
+    intialiaze_matrix_null(&X);
 
-        if (alfa == 100)
-        {
-            for (i = 0; i < n; i++)
-            {
-                x_i = -L / 2.0 + delta_x * (i + 1);
-                fprintf(fp3, "%12g ", x_i);
-                for (k = 0; k < 6; k++)
-                    fprintf(fp3, "%12g ", (GSL_REAL(gsl_matrix_complex_get(evec, i, k))));
-                fprintf(fp3, "\n");
-            }
-        }
-    }
+    intialiaze_vector_null(&d);
+    intialiaze_vector_null(&e);
+
+    tred2(H, n, d, e);
+
+    tqli(d, e, n, Y);
+
+    pomnoz(H, Y, &X);
+
+    sort(&d, &index);
+
+    file_print(X, index, file_ptr);
+
+	for (int i=1;i<=10;i++)
+	{
+		fprintf (energy_ptr,"%d %3g\n",i,d[i]);
+	}
+
 
     //// free memory ////
 
-    gsl_matrix_free(A);
-    gsl_matrix_complex_free(evec);
-    gsl_vector_complex_free(eval);
-    gsl_eigen_nonsymmv_free(w);
-
-    fclose(fp);
-    fclose(fp2);
-    fclose(fp3);
+    free_matrix(H, 1, n, 1, n);
+    free_matrix(Y, 1, n, 1, n);
+    free_matrix(X, 1, n, 1, n);
+    free_vector(d, 1, n);
+    free_vector(e, 1, n);
+    free_ivector(index, 1, n);
+    fclose(file_ptr);
+	fclose(energy_ptr);
 }
 
-void init_matrix(gsl_matrix *A, int alfa)
+void intialiaze_matrix_null(float ***matrix)
 {
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            (*matrix)[i][j] = 0;
 }
-int cronecker(int i, int j)
+
+void intialiaze_vector_null(float **vector)
 {
-    return (i == j) ? 1 : 0;
-}
-float p_function(int alfa, int i)
+    for (int i = 1; i <= n; i++)
+        (*vector)[i] = 0;
+}  
+void intialiaze_main_matrix(float ***matrix)
 {
-    float x = -(L / 2) + ((L / (n + 1)) * (i + 1));
-    return (1 + 4 * (alfa * pow(x, 2)));
-}
-void print_matrix(gsl_matrix *A)
-{
-    for (int i = 0; i < n; i++)
+    int l = 0;
+    for (int i = 1; i <= nx; i++)
     {
-        for (int j = 0; i < n; i++)
+        for (int j = 1; j <= ny; j++)
         {
-            printf("  %3g  ", gsl_matrix_get(A, i, j));
+            l = j + (i - 1) * ny;
+            for (int k = 1; k <= n; k++)
+                (*matrix)[l][k] = 0.;
+            if (i > 1)
+                (*matrix)[l][l - ny] = t; //dla i=1 nie ma sasiada z lewej strony
+            if (i < nx)
+                (*matrix)[l][l + ny] = t; //dla i=nx nie ma sasiada z prawej strony
+            (*matrix)[l][l] = -4 * t;
+            if (j > 1)
+                (*matrix)[l][l - 1] = t; //dla j=1 nie ma sasiada ponizej siatki
+            if (j < ny)
+                (*matrix)[l][l + 1] = t; //dla j=ny nie ma sasiada powyzej siatki
         }
-        printf("\n");
     }
+}
+
+void pomnoz(float **A, float **B, float ***C)
+{
+    float suma;
+    for (int i = 1; i <= n; i++)
+    {
+        for (int j = 1; j <= n; j++)
+        {
+            suma = 0;
+            for (int k = 1; k <= n; k++)
+            {
+                suma += A[i][k] * B[k][j];
+            }
+            (*C)[i][j] = suma;
+        }
+    }    
+}
+
+void sort(float **d, int **index)
+{
+    float e1, e2, l1, l2;
+    for (int l = 1; l <= n; l++)
+        (*index)[l] = l; // inicjalizacja
+    for (int l = 1; l <= n - 1; l++)
+    {
+        for (int k = n; k >= l + 1; k--)
+        {
+            e1 = (*d)[k - 1];
+            e2 = (*d)[k];
+            l1 = (*index)[k - 1];
+            l2 = (*index)[k];
+            if (e2 < e1)
+            { //wymieniamy energie i indeksy wektorów miejscami
+                (*d)[k] = e1;
+                (*d)[k - 1] = e2;
+                (*index)[k] = l1;
+                (*index)[k - 1] = l2;
+            }
+        }
+    }
+}
+
+
+void file_print(float **X, int *index, FILE *fp)
+{
+    int l;
+    for (int i = 1; i <= nx; i++)
+    {
+        for (int j = 1; j <= ny; j++)
+        {
+            l = j + (i - 1) * ny;
+            fprintf(fp, "%6d %6d ", i, j);
+            for (int k = 1; k <= m; k++)
+                fprintf(fp, " %12.6f ", X[l][index[k]]);
+            fprintf(fp, "\n");
+        }
+        fprintf(fp, "\n");
+    }
+}
+void intialiaze_Y_matrix(float ***matrix)
+{
+    for (int i = 1; i <= n; i++)
+        for (int j = 1; j <= n; j++)
+            if (i == j)
+                (*matrix)[i][j] = 1;
+            else
+                (*matrix)[i][j] = 0;
 }

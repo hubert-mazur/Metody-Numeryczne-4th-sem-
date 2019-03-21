@@ -1,19 +1,19 @@
 #pragma once
+#include "/opt/NR/numerical_recipes.c/nrutil.h"
+#include "/opt/NR/numerical_recipes.c/nrutil.c"
+#include "/opt/NR/numerical_recipes.c/tred2.c"
+#include "/opt/NR/numerical_recipes.c/tqli.c"
+#include "/opt/NR/numerical_recipes.c/pythag.c"
+const int nx = 20;
+const int ny = 20;
+const int n = nx * ny;
+const int m = 10;
+const float t = -0.021;
 
-#include "/home/hubert/gsl/include/gsl/gsl_eigen.h"
-#include "/home/hubert/gsl/include/gsl/gsl_complex.h"
-#include "/home/hubert/gsl/include/gsl/gsl_complex_math.h"
-#include "/home/hubert/gsl/include/gsl/gsl_vector.h"
-#include "math.h"
-#include <iostream>
-
-void init_matrix(gsl_matrix *matrix, int alfa);
-int cronecker(int i, int j);
-float p_function(int alfa, int i);
-void print_matrix(gsl_matrix *A);
-
-double L = 10.0, N = 1.0;
-int i, j, k, alfa = 0, n = 200;
-
-const double delta_x = L / (n + 1);
-double x_i, p_i;
+void intialiaze_matrix_null(float ***matrix);
+void intialiaze_vector_null(float **vector);
+void intialiaze_main_matrix(float ***matrix);
+void pomnoz(float **A, float **B, float ***C);
+void sort(float **d, int **index);
+void file_print(float **X, int *index, FILE *fp);
+void intialiaze_Y_matrix(float ***matrix);
