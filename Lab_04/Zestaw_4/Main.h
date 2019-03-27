@@ -1,9 +1,17 @@
 #pragma once
-#include "/opt/NR/numerical_recipes.c/nrutil.h"
-#include "/opt/NR/numerical_recipes.c/nrutil.c"
-#include "/opt/NR/numerical_recipes.c/tred2.c"
-#include "/opt/NR/numerical_recipes.c/tqli.c"
-#include "/opt/NR/numerical_recipes.c/pythag.c"
+// #include "/opt/NR/numerical_recipes.c/nrutil.h"
+// #include "/opt/NR/numerical_recipes.c/nrutil.c"
+// #include "/opt/NR/numerical_recipes.c/tred2.c"
+// #include "/opt/NR/numerical_recipes.c/tqli.c"
+// #include "/opt/NR/numerical_recipes.c/pythag.c"
+#include "/home/hubert/Numerical_recipes/pythag.cpp"
+#include "/home/hubert/Numerical_recipes/tqli.cpp"
+#include "/home/hubert/Numerical_recipes/tred2.cpp"
+#include "/home/hubert/Numerical_recipes/nrutil.cpp"
+#include "/home/hubert/Numerical_recipes/nrutil.h"
+
+
+
 const int nx = 20;
 const int ny = 20;
 const int n = nx * ny;

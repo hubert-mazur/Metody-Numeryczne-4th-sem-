@@ -7,7 +7,7 @@ do for [t=3:12] {
   #outfile = sprintf('animation/bessel%03.0f.png',t)
   #set output outfile
   #splot u*sin(v),u*cos(v),bessel(u,t/50.0) w pm3d ls 1
-	set out "vec_".((t-2))."png"
+	set out "vec_".((t-2)).".png"
   splot "dane.dat" u 1:2:t w pm3d
 
 }
