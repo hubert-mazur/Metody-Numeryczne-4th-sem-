@@ -98,18 +98,12 @@ void divide_vector(float **vect, float value)
 
 void mnoz(float *tab1, float *tab2, float ***tab3, int x, int middle, int y)
 {
-	float suma;
+
 	for (int i = 1; i <= x; i++)
 	{
-		suma = 0;
 		for (int j = 1; j <= y; j++)
 		{
-
-			for (int k = 1; k <= middle; k++)
-			{
-				suma += ((*(tab1 + i))) * ((*(tab2 + k)));
-			}
-			(*tab3)[i][j] = suma;
+			(*tab3)[i][j] = tab1[i]*tab2[j];
 		}
 	}
 }
@@ -123,13 +117,6 @@ void const_multi_matrix(float consts, float ***matrix)
 			(*matrix)[i][j] *= consts;
 		}
 	}
-
-	// for (int i=1;i<=N;i++)
-	// {
-	// 	for (int j=1;j<=N;j++)
-	// 	std::cout<<(*matrix)[i][j]<<" ";
-	// 	std::cout<<std::endl;
-	// }
 }
 
 void subtract_matrix_matrix(float **matrix1, float **matrix2, float ***matrix3)
@@ -141,11 +128,4 @@ void subtract_matrix_matrix(float **matrix1, float **matrix2, float ***matrix3)
 			(*matrix3)[i][j] = matrix1[i][j] - matrix2[i][j];
 		}
 	}
-
-	// for (int i=1;i<=N;i++)
-	// {
-	// 	for (int j=1;j<=N;j++)
-	// 	std::cout<<matrix2[i][j]<<" ";
-	// 	std::cout<<std::endl;
-	// }
 }
