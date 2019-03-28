@@ -74,18 +74,11 @@ void copy_normed_vector(gsl_vector **start_vector, gsl_vector *x_vector)
 
 void multiply_vector_vector_to_matrix(gsl_vector *start_vect1, gsl_vector *start_vect2, gsl_matrix **temp_matrix)
 {
-    float suma;
     for (int i = 0; i < N; i++)
     {
-        suma = 0;
         for (int j = 0; j < N; j++)
         {
-
-            for (int k = 0; k < 1; k++)
-            {
-                suma += gsl_vector_get(start_vect1, i) * gsl_vector_get(start_vect2, k);
-            }
-            gsl_matrix_set(*temp_matrix, i, j, suma);
+            gsl_matrix_set(*temp_matrix, i, j, gsl_vector_get(start_vect1,i)*gsl_vector_get(start_vect2,j));
         }
     }
 }
