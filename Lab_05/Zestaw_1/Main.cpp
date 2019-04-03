@@ -47,9 +47,9 @@ int main()
 	Copy_matrix(&W_matrix, A_matrix);
 
 	tred2(A_matrix, N, d_vector, e_vector);
-	tqli(d_vector, e_vector, N, Z_matrix);
-	
-	fprintf(file_ptr,"Wartosci wlasne: \n");
+	tqli(d_vector, e_vector, N, A_matrix);
+
+	fprintf(file_ptr, "Wartosci wlasne: \n");
 
 	for (int i = 1; i <= N; i++)
 		fprintf(file_ptr, "%f ", d_vector[i]);
@@ -57,21 +57,45 @@ int main()
 	fprintf(file_ptr, "\n");
 	fprintf(file_ptr, "\n");
 
-intialiaze_0_vector(&start_vector);
+	fprintf(file_ptr, "Wektory wlasne: \n");
+
+	for (int i = 1; i <= N; i++)
+	{
+		fprintf(file_ptr, "wektor%d: ", i);
+		for (int j = 1; j <= N; j++)
+		{
+			fprintf(file_ptr, "%f ", A_matrix[j][i]);
+		}
+		fprintf(file_ptr, "\n");
+	}
+
+	fprintf(file_ptr, "\n");
+	fprintf(file_ptr, "\n");
+
+	intialiaze_0_vector(&start_vector);
 
 	while (k <= N)
 	{
-		fprintf(file_ptr,"przblizenia wartosci wlasnej dla: k = %d,  wartosc wlasna ---> %5g\n",k,d_vector[8-k]);
+		fprintf(file_ptr, "przblizenia wartosci wlasnej dla: k = %d,  wartosc wlasna ---> %5g,\n", k, d_vector[8 - k]);
+		fprintf(file_ptr,"wektor wlasny ---> ");
+
+		for (int j=1;j<=N;j++)
+		fprintf(file_ptr,"%5g ",A_matrix[j][k]);
+
+		fprintf (file_ptr,"\n\n");
+
 		for (int i = 0; i < 8; i++)
 		{
 			matrix_vector(W_matrix, start_vector, &x_0_vector);
 			lambda = (vector_dot_vector(x_0_vector, start_vector) / vector_dot_vector(start_vector, start_vector));
 			divide_vector(&x_0_vector, (vector_norm(x_0_vector)));
 			copy_vector(&start_vector, x_0_vector);
-			
-			fprintf(file_ptr, "l%d =  %5g \n",i+1, lambda);
-		}
 
+			fprintf(file_ptr, "l%d =  %5g \n", i + 1, lambda);
+		}
+		fprintf (file_ptr,"x[%d] = ",k);
+		for (int i=1;i<=N;i++)
+			fprintf(file_ptr,"%5g ",x_0_vector[i]);
 		fprintf(file_ptr, "\n\n");
 
 		mnoz(start_vector, start_vector, &temp_matrix, N, 1, N);
