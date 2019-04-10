@@ -56,3 +56,9 @@
 **/Build/
 */Build/
 Build/
+cmake-build-debug/
+
+# Other
+*.xml
+*.iml
+.idea/
