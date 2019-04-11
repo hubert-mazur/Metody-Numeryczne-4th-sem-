@@ -12,12 +12,17 @@ int main ()
 	double **differ_quotient;
 
 	knots[0] = -5;
-	knots[1] = -2;
-	knots[2] = -0.5;
-	knots[3] = 0;
-	knots[4] = 0.5;
-	knots[5] = 2;
+	// knots[1] = -2;
+	// knots[2] = -0.5;
+	// knots[3] = 0;
+	// knots[4] = 0.5;
+	// knots[5] = 2;
 	knots[6] = 5;
+
+	double step = (abs (-5) + abs (5)) / static_cast<double>((N - 1));
+	for (int i = 1; i <= N - 2; i++) // dla wezlow rownoodleglych
+		knots[i] = -5 + (step * i);
+
 
 
 	differ_quotient = new double *[N];
@@ -43,13 +48,13 @@ int main ()
 	difference_quotient (knots, function_values, &differ_quotient, N);
 
 	FILE *fp;
-	fp = fopen ("dane.dat", "w");
+	fp = fopen ("dane2.dat", "w");
 
 	if (!fp)
 		exit (-2);
 
 
-	for (double i = -1; i < 1.001; i += 0.01)
+	for (double i = -5; i < 5.001; i += 0.01)
 	{
 		fprintf (fp, "%lf %lf %lf\n", i, 1.0 / (1.0 + pow (i, 2)), interpolate (knots, differ_quotient, N, i));
 	}

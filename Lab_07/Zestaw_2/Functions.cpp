@@ -22,12 +22,12 @@ void difference_quotient (const double *args, const double *values, double ***re
 	}
 
 
-//	for (int i = 0; i < N - 1; i++)
-//	{
-//		for (int z = 2; z < N + 2; z++)
-//			std::cout << result[i][z] << " ";
-//		std::cout << std::endl;
-//	}
+	for (int i = 0; i < N-1 ; i++)
+	{
+		for (int j=2;j<N+2;j++)
+			std::cout << (*result)[i][j] << " ";
+		std::cout << std::endl;
+	}
 
 }
 
@@ -35,15 +35,32 @@ double interpolate (double *args, double **difference_arr, int N, double value)
 {
 	double sum = 0;
 
-	sum = (1.0 / (1 + pow (args[0], 2))) + (difference_arr[0][2] * (value - args[0])) +
-		  difference_arr[0][3] * (value - args[0]) * (value - args[1]) +
-		  (difference_arr[0][4] * (value - args[0]) * (value - args[1]) * (value - args[2])) +
-		  (difference_arr[0][5] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3])) +
-		  (difference_arr[0][6] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3]) *
-		   (value - args[4])) +
-		  (difference_arr[0][7] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3]) *
-		   (value - args[4]) * (value - args[5])) +
-		  (difference_arr[0][8] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3]) *
-		   (value - args[4]) * (value - args[5]) * (value - args[6]));
+	// sum = (1.0 / (1 + pow (args[0], 2))) + (difference_arr[0][2] * (value - args[0])) +
+	// 	  difference_arr[0][3] * (value - args[0]) * (value - args[1]) +
+	// 	  (difference_arr[0][4] * (value - args[0]) * (value - args[1]) * (value - args[2])) +
+	// 	  (difference_arr[0][5] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3])) +
+	// 	  (difference_arr[0][6] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3]) *
+	// 	   (value - args[4])) +
+	// 	  (difference_arr[0][7] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3]) *
+	// 	   (value - args[4]) * (value - args[5])) +
+	// 	  (difference_arr[0][8] * (value - args[0]) * (value - args[1]) * (value - args[2]) * (value - args[3]) *
+	// 	   (value - args[4]) * (value - args[5]) * (value - args[6]));
+
+	double temp;
+
+	sum += (1.0 / (1 + pow (args[0], 2)));
+
+	for (int i=1;i<N;i++)
+	{
+		temp = 1;
+		for (int j=0;j<i;j++)
+		{
+			
+			temp*= (value-args[j]);
+		}
+		temp *= difference_arr[0][i+1];
+		sum += temp; 
+	}
+
 	return sum;
 }
