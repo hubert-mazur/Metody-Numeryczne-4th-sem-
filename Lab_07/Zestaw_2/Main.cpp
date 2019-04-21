@@ -7,58 +7,65 @@ int main ()
 {
 
 	int N = 7;
-	auto *function_values = new double[N];
-	auto *knots = new double[N];
+	double *function_values;
+	double *knots;
 	double **differ_quotient;
 
-	knots[0] = -5;
-	// knots[1] = -2;
-	// knots[2] = -0.5;
-	// knots[3] = 0;
-	// knots[4] = 0.5;
-	// knots[5] = 2;
-	knots[6] = 5;
 
-	double step = (abs (-5) + abs (5)) / static_cast<double>((N - 1));
-	for (int i = 1; i <= N - 2; i++) // dla wezlow rownoodleglych
-		knots[i] = -5 + (step * i);
+		knots = new double [N];
+		function_values = new double [N];
 
+		knots[0] = -5;
+//	 knots[1] = -2;
+//	 knots[2] = -0.5;
+//	 knots[3] = 0;
+//	 knots[4] = 0.5;
+//	 knots[5] = 2;
+		knots[N-1] = 5;
 
-
-	differ_quotient = new double *[N];
-	fill_function_values (knots, function_values, N);
-
-	for (int i = 0; i < N; i++)
-	{
-		differ_quotient[i] = new double[N + 2];
-	}
-
-	for (int i = 0; i < N; i++)
-	{
-		for (int j = 0; j < N + 2; j++)
-			differ_quotient[i][j] = 0;
-	}
-
-	for (int i = 0; i < N; i++)
-	{
-		differ_quotient[i][0] = knots[i];
-		differ_quotient[i][1] = function_values[i];
-	}
-
-	difference_quotient (knots, function_values, &differ_quotient, N);
-
-	FILE *fp;
-	fp = fopen ("dane2.dat", "w");
-
-	if (!fp)
-		exit (-2);
+		double step = (abs (-5) + abs (5)) / static_cast<double>((N - 1));
+		for (int i = 1; i <= N - 2; i++) // dla wezlow rownoodleglych
+		{
+			knots[i] = -5 + (step * i);
+//			std::cout << knots[i] << " ";
+		}
+//		std::cout << std::endl << std::endl;
 
 
-	for (double i = -5; i < 5.001; i += 0.01)
-	{
-		fprintf (fp, "%lf %lf %lf\n", i, 1.0 / (1.0 + pow (i, 2)), interpolate (knots, differ_quotient, N, i));
-	}
+		differ_quotient = new double *[N];
+		fill_function_values (knots, function_values, N);
 
+		for (int i = 0; i < N; i++)
+		{
+			differ_quotient[i] = new double[N + 2];
+		}
+
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N + 2; j++)
+				differ_quotient[i][j] = 0;
+		}
+
+		for (int i = 0; i < N; i++)
+		{
+			differ_quotient[i][0] = knots[i];
+			differ_quotient[i][1] = function_values[i];
+		}
+
+		difference_quotient (knots, function_values, &differ_quotient, N);
+
+		FILE *fp;
+		fp = fopen ("dane.dat", "w");
+
+		if (!fp)
+			exit (-2);
+
+		double temp = 0;
+		for (double i = -5; i < 5.001; i += 0.01)
+		{
+			fprintf (fp, "%lf %lf %lf\n", i, 1.0 / (1.0 + pow (i, 2)), interpolate (knots, differ_quotient, N, i));
+
+		}
 
 
 // free
@@ -69,6 +76,6 @@ int main ()
 	delete[] differ_quotient;
 	delete[] knots;
 	delete[] function_values;
-	fclose (fp);
+//	fclose (fp);
 	return 0;
 }
