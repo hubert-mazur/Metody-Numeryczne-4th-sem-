@@ -30,7 +30,8 @@ int main ()
 
 	for (int i = 0; i < N; i++)
 	{
-		differ_quotient[i] = new double[N + 2];
+		differ_quotient[i] = new dou7mazur@stud205-14:~/Metody_numeryczne/Metody-Numeryczne-4th-sem-/Lab_07/Zestaw_2$ gnuplot gnuplot.sh 
+le[N + 2];
 	}
 
 	for (int i = 0; i < N; i++)
