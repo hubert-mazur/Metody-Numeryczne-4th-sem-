@@ -32,16 +32,8 @@ int main ()
 //		std::cout << std::endl << std::endl;
 
 
-<<<<<<< HEAD
-	for (int i = 0; i < N; i++)
-	{
-		differ_quotient[i] = new dou7mazur@stud205-14:~/Metody_numeryczne/Metody-Numeryczne-4th-sem-/Lab_07/Zestaw_2$ gnuplot gnuplot.sh 
-le[N + 2];
-	}
-=======
 		differ_quotient = new double *[N];
 		fill_function_values (knots, function_values, N);
->>>>>>> a5f969dd22b7477de283766c34a11c783cc0ae90
 
 		for (int i = 0; i < N; i++)
 		{
