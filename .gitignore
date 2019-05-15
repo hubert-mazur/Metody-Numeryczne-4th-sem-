@@ -57,6 +57,7 @@
 */Build/
 Build/
 cmake-build-debug/
+.vscode
 
 # Other
 *.xml
