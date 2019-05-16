@@ -12,5 +12,5 @@ double function_1 (double arg);
 double function_2 (double arg);
 
 void
-woof (double left_init, double right_init, double R, std::string str, double (*function) (double), double exact_value);
+woof (double left_init, double right_init, double R, std::string str, double (*function) (double), double exact_value,bool choice);
 

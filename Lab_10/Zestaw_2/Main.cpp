@@ -4,10 +4,10 @@
 
 int main ()
 {
-	woof (-0.5, 1.0, R1, "f(x)_1.dat", &function_1, -0.1673198);
-	woof (-0.5, 1.0, R2, "f(x)_2.dat", &function_1, -0.1673198);
-	woof (-4.0, 1.0, R1, "g(x)_1.dat", &function_2, 0.0);
-	woof (-4.0, 1.0, R2, "g(x)_2.dat", &function_2, 0.0);
+	woof (-0.5, 1.0, R1, "f(x)_1.dat", &function_1, -0.1673198,false);
+	woof (-0.5, 1.0, R2, "f(x)_2.dat", &function_1, -0.1673198,true);
+	woof (-4.0, 1.0, R1, "g(x)_1.dat", &function_2, 0.0,false);
+	woof (-4.0, 1.0, R2, "g(x)_2.dat", &function_2, 0.0,true);
 }
 
 
@@ -22,7 +22,7 @@ double function_2 (double arg)
 }
 
 void
-woof (double left_init, double right_init, double R, std::string str, double (*function) (double), double exact_value)
+woof (double left_init, double right_init, double R, std::string str, double (*function) (double), double exact_value,bool choice)
 {
 	double x_a = left_init;
 	double x_b = right_init;
@@ -35,8 +35,18 @@ woof (double left_init, double right_init, double R, std::string str, double (*f
 
 	while (true)
 	{
+		if (choice)
+		{
+			double interval = (x_b-x_a)/(3.0);
+			x_1 = x_a+interval;
+			x_2 = x_b - interval;
+		}
+		else
+		{
 		x_1 = x_a + pow (R, 2) * (x_b - x_a);
 		x_2 = x_a + R * (x_b - x_a);
+		}
+
 
 		if (function (x_1) > function (x_2))
 			x_a = x_1;
