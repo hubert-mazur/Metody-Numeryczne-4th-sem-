@@ -3,7 +3,7 @@ set terminal post enhanced colour solid font 14  # wybor formatu, w jakim chcemy
 set terminal jpeg
 
 set xlabel "Numer iteracji" # etykieta osi OX
-set ylabel "bezwzgledna roznica rozwiazania dokladnego i przyblizonego" # etykieta osi OY
+set ylabel "Bezwzgledna roznica rozwiazania dokladnego i przyblizonego" # etykieta osi OY
 set grid # wlaczenie widoczności siatki pomocniczej
 
 
@@ -22,12 +22,12 @@ set style line 9 lc rgb 'grey' lt 1 lw 2 #      .
 ################################################### DRAW ####################################################
 
 #############################################################################################################
-set title "roznica rozwiazan funkcji 1" # tytul wykresu
+set title "roznica rozwiazan funkcji f(x)" # tytul wykresu
 set output "f(x)_1.jpg" # nazwa pliku wynikowego
 set logscale y
 plot 'cmake-build-debug/f(x)_1.dat' using 1:3 with lines title "r=(sqrt(5)-1)/2" ls 1, 'cmake-build-debug/f(x)_2.dat' using 1:3 with lines ls 2 title "r=1/3"
 #############################################################################################################
-set title "roznica rozwiazan funkcji 2" # tytul wykresu
+set title "roznica rozwiazan funkcji g(x)" # tytul wykresu
 set output "g(x)_1.jpg" # nazwa pliku wynikowego
 set logscale y
 plot 'cmake-build-debug/g(x)_1.dat' using 1:3 with lines title "r=(sqrt(5)-1)/2" ls 1, 'cmake-build-debug/g(x)_2.dat' using 1:3 with lines ls 2 title "r=1/3"
