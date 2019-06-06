@@ -5,4 +5,4 @@
 ### Studies semester: FOURTH
 ### Subject name: Numerical Analysis
 
-#### This repository contain all tasks, that were done during my Numerical Analysis university course. 
+#### This repository contain all tasks, I've done during my Numerical Analysis university course. 
